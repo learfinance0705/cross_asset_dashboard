@@ -10,6 +10,37 @@ Minimal public + admin skeleton for the cross-asset dashboard.
 - Simple admin page for editing JSON-backed content
 - Token-protected save API
 
+## GitHub Pages
+
+This project now also supports a pure static export for GitHub Pages.
+
+```bash
+cd /Users/employee/.openclaw/workspace/cross-asset-site
+npm run build
+```
+
+Generated output:
+
+- `docs/index.html`
+- `docs/group/:slug/index.html`
+- `docs/asset/:slug/index.html`
+- `docs/admin/index.html`
+- `docs/site.json`
+
+How to publish on GitHub Pages:
+
+1. Push this project to GitHub.
+2. In repository settings, open `Pages`.
+3. Set the source to `GitHub Actions`.
+4. Commit or edit `data/site.json` on `main`.
+5. The workflow in `.github/workflows/pages.yml` will build and publish automatically.
+
+Notes for the static Pages version:
+
+- Public pages remain crawlable and searchable.
+- `/admin` becomes a management guide page instead of a live save form.
+- Content updates happen by editing `data/site.json`; GitHub Actions rebuilds and republishes the static site.
+
 ## Run
 
 ```bash

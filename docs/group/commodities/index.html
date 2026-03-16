@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commodities | Cross Asset Board</title>
+  <meta name="description" content="贵金属、能源、工业品与加密资产代理。" />
+  <style>
+    :root { --bg:#08101d; --panel:#111a31; --panel2:#18254a; --text:#eef3ff; --muted:#94a4cf; --border:#2b3c71; --link:#d3b071; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background: radial-gradient(circle at top, #102042, #08101d 55%); color: var(--text); }
+    header { padding: 22px 18px 16px; border-bottom: 1px solid var(--border); background: rgba(8,16,29,.88); position: sticky; top: 0; backdrop-filter: blur(10px); }
+    main { max-width: 1260px; margin: 0 auto; padding: 20px 18px 40px; }
+    h1, h2, h3 { margin: 0 0 8px; }
+    p { margin: 0; color: var(--muted); }
+    a { color: var(--text); text-decoration: none; }
+    .nav { margin-top: 14px; display:flex; flex-wrap:wrap; gap:10px; }
+    .pill { padding: 8px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,.03); }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .card { display:block; padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .meta { margin-top: 8px; font-size: 13px; color: var(--muted); }
+    .stack { display:grid; gap: 16px; }
+    .chart-card { border: 1px solid var(--border); border-radius: 16px; overflow:hidden; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .chart-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:12px 14px; border-bottom:1px solid var(--border); }
+    .badge { font-size:12px; color:#bed2ff; padding:4px 8px; border:1px solid rgba(115,168,255,.35); border-radius:999px; }
+    .tags { display:flex; flex-wrap:wrap; gap:8px; padding: 10px 14px 0; }
+    .tag { font-size:12px; color:#cbd7f5; padding:3px 8px; border-radius:999px; background: rgba(255,255,255,.05); border:1px solid var(--border); }
+    .desc { padding: 0 14px 12px; color: var(--muted); font-size: 14px; }
+    .chart { height: 380px; padding: 10px 14px 14px; }
+    .chart.fred { height: 530px; }
+    .note-card { padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px; }
+    .link { color: var(--link); font-size: 13px; }
+    pre { margin: 0; padding: 14px; overflow:auto; border-radius: 12px; background:#0b1327; color:#dce6ff; border:1px solid var(--border); }
+    iframe { width:100%; height:100%; border:0; border-radius:12px; background:#fff; }
+    .tradingview-widget-container, .tradingview-widget-container__widget { height:100%; width:100%; }
+  </style>
+  <script async src="https://fred.stlouisfed.org/assets/research/fred-graph-react/embed.min.js"></script>
+</head>
+<body>
+  
+      <header>
+        <h1>Commodities</h1>
+        <p>贵金属、能源、工业品与加密资产代理。</p>
+        <div class="nav">
+          <a class="pill" href="../../">← All Classes</a>
+          <a class="pill" href="../../group/us-treasury-baseline/">US Treasury Baseline</a><a class="pill" href="../../group/commodities/">Commodities</a><a class="pill" href="../../group/equities/">Equities</a><a class="pill" href="../../group/fixed-income/">Fixed Income</a><a class="pill" href="../../group/fx-vs-usd/">FX vs USD</a><a class="pill" href="../../group/sectors/">Sectors</a>
+        </div>
+      </header>
+      <main class="stack">
+        <section class="stack">
+          <h2>Assets</h2>
+          <div class="grid"><a class="card" href="../../asset/gold/">
+    <h2>Gold</h2>
+    <p class="meta">Commodities · AMEX:GLD</p>
+    <p class="meta">黄金 ETF wrapper。</p>
+  </a><a class="card" href="../../asset/silver/">
+    <h2>Silver</h2>
+    <p class="meta">Commodities · AMEX:SLV</p>
+    <p class="meta">白银 ETF wrapper。</p>
+  </a><a class="card" href="../../asset/bitcoin/">
+    <h2>Bitcoin</h2>
+    <p class="meta">Commodities · BINANCE:BTCUSDT</p>
+    <p class="meta">Binance 加密现货交易对。</p>
+  </a><a class="card" href="../../asset/ethereum/">
+    <h2>Ethereum</h2>
+    <p class="meta">Commodities · BINANCE:ETHUSDT</p>
+    <p class="meta">Binance 加密现货交易对。</p>
+  </a><a class="card" href="../../asset/trump-coin/">
+    <h2>Trump Coin</h2>
+    <p class="meta">Commodities · BINANCE:TRUMPUSDT</p>
+    <p class="meta">Binance 加密现货交易对。</p>
+  </a><a class="card" href="../../asset/platinum/">
+    <h2>Platinum</h2>
+    <p class="meta">Commodities · AMEX:PPLT</p>
+    <p class="meta">铂金 ETF wrapper。</p>
+  </a><a class="card" href="../../asset/brent-crude-oil/">
+    <h2>Brent Crude Oil</h2>
+    <p class="meta">Commodities · AMEX:BNO</p>
+    <p class="meta">Brent 原油 ETF 代理。</p>
+  </a><a class="card" href="../../asset/wti-crude-oil/">
+    <h2>WTI Crude Oil</h2>
+    <p class="meta">Commodities · AMEX:USO</p>
+    <p class="meta">WTI 原油 ETF 代理。</p>
+  </a><a class="card" href="../../asset/natural-gas/">
+    <h2>Natural Gas</h2>
+    <p class="meta">Commodities · AMEX:UNG</p>
+    <p class="meta">天然气 ETF wrapper。</p>
+  </a><a class="card" href="../../asset/copper/">
+    <h2>Copper</h2>
+    <p class="meta">Commodities · AMEX:CPER</p>
+    <p class="meta">铜 ETF wrapper。</p>
+  </a><a class="card" href="../../asset/iron-ore/">
+    <h2>Iron Ore</h2>
+    <p class="meta">Commodities · CBOE:PICK</p>
+    <p class="meta">矿业篮子代理。</p>
+  </a><a class="card" href="../../asset/industrial-metals/">
+    <h2>Industrial Metals</h2>
+    <p class="meta">Commodities · AMEX:DBB</p>
+    <p class="meta">工业金属 ETF wrapper。</p>
+  </a><a class="card" href="../../asset/oil/">
+    <h2>Oil</h2>
+    <p class="meta">Commodities · AMEX:USO</p>
+    <p class="meta">Oil ETF 代理。</p>
+  </a></div>
+        </section>
+        <article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Gold</h3>
+        <p>AMEX:GLD</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AGLD" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">黄金 ETF wrapper。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:GLD",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Silver</h3>
+        <p>AMEX:SLV</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3ASLV" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">白银 ETF wrapper。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:SLV",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Bitcoin</h3>
+        <p>BINANCE:BTCUSDT</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=BINANCE%3ABTCUSDT" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Crypto spot</span></div>
+    <p class="desc">Binance 加密现货交易对。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "BINANCE:BTCUSDT",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Ethereum</h3>
+        <p>BINANCE:ETHUSDT</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=BINANCE%3AETHUSDT" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Crypto spot</span></div>
+    <p class="desc">Binance 加密现货交易对。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "BINANCE:ETHUSDT",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Trump Coin</h3>
+        <p>BINANCE:TRUMPUSDT</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=BINANCE%3ATRUMPUSDT" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Crypto spot</span></div>
+    <p class="desc">Binance 加密现货交易对。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "BINANCE:TRUMPUSDT",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Platinum</h3>
+        <p>AMEX:PPLT</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3APPLT" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">铂金 ETF wrapper。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:PPLT",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Brent Crude Oil</h3>
+        <p>AMEX:BNO</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3ABNO" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">Brent 原油 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:BNO",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>WTI Crude Oil</h3>
+        <p>AMEX:USO</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AUSO" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">WTI 原油 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:USO",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Natural Gas</h3>
+        <p>AMEX:UNG</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AUNG" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">天然气 ETF wrapper。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:UNG",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Copper</h3>
+        <p>AMEX:CPER</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3ACPER" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">铜 ETF wrapper。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:CPER",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Iron Ore</h3>
+        <p>CBOE:PICK</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=CBOE%3APICK" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Miner basket proxy</span></div>
+    <p class="desc">矿业篮子代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "CBOE:PICK",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Industrial Metals</h3>
+        <p>AMEX:DBB</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3ADBB" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">工业金属 ETF wrapper。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:DBB",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Oil</h3>
+        <p>AMEX:USO</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AUSO" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF wrapper</span></div>
+    <p class="desc">Oil ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:USO",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article>
+      </main>
+    
+</body>
+</html>

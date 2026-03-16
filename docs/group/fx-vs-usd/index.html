@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FX vs USD | Cross Asset Board</title>
+  <meta name="description" content="美元与主要及新兴货币相对价格代理。" />
+  <style>
+    :root { --bg:#08101d; --panel:#111a31; --panel2:#18254a; --text:#eef3ff; --muted:#94a4cf; --border:#2b3c71; --link:#d3b071; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background: radial-gradient(circle at top, #102042, #08101d 55%); color: var(--text); }
+    header { padding: 22px 18px 16px; border-bottom: 1px solid var(--border); background: rgba(8,16,29,.88); position: sticky; top: 0; backdrop-filter: blur(10px); }
+    main { max-width: 1260px; margin: 0 auto; padding: 20px 18px 40px; }
+    h1, h2, h3 { margin: 0 0 8px; }
+    p { margin: 0; color: var(--muted); }
+    a { color: var(--text); text-decoration: none; }
+    .nav { margin-top: 14px; display:flex; flex-wrap:wrap; gap:10px; }
+    .pill { padding: 8px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,.03); }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .card { display:block; padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .meta { margin-top: 8px; font-size: 13px; color: var(--muted); }
+    .stack { display:grid; gap: 16px; }
+    .chart-card { border: 1px solid var(--border); border-radius: 16px; overflow:hidden; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .chart-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:12px 14px; border-bottom:1px solid var(--border); }
+    .badge { font-size:12px; color:#bed2ff; padding:4px 8px; border:1px solid rgba(115,168,255,.35); border-radius:999px; }
+    .tags { display:flex; flex-wrap:wrap; gap:8px; padding: 10px 14px 0; }
+    .tag { font-size:12px; color:#cbd7f5; padding:3px 8px; border-radius:999px; background: rgba(255,255,255,.05); border:1px solid var(--border); }
+    .desc { padding: 0 14px 12px; color: var(--muted); font-size: 14px; }
+    .chart { height: 380px; padding: 10px 14px 14px; }
+    .chart.fred { height: 530px; }
+    .note-card { padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px; }
+    .link { color: var(--link); font-size: 13px; }
+    pre { margin: 0; padding: 14px; overflow:auto; border-radius: 12px; background:#0b1327; color:#dce6ff; border:1px solid var(--border); }
+    iframe { width:100%; height:100%; border:0; border-radius:12px; background:#fff; }
+    .tradingview-widget-container, .tradingview-widget-container__widget { height:100%; width:100%; }
+  </style>
+  <script async src="https://fred.stlouisfed.org/assets/research/fred-graph-react/embed.min.js"></script>
+</head>
+<body>
+  
+      <header>
+        <h1>FX vs USD</h1>
+        <p>美元与主要及新兴货币相对价格代理。</p>
+        <div class="nav">
+          <a class="pill" href="../../">← All Classes</a>
+          <a class="pill" href="../../group/us-treasury-baseline/">US Treasury Baseline</a><a class="pill" href="../../group/commodities/">Commodities</a><a class="pill" href="../../group/equities/">Equities</a><a class="pill" href="../../group/fixed-income/">Fixed Income</a><a class="pill" href="../../group/fx-vs-usd/">FX vs USD</a><a class="pill" href="../../group/sectors/">Sectors</a>
+        </div>
+      </header>
+      <main class="stack">
+        <section class="stack">
+          <h2>Assets</h2>
+          <div class="grid"><a class="card" href="../../asset/us-dollar/">
+    <h2>US Dollar</h2>
+    <p class="meta">FX vs USD · AMEX:UUP</p>
+    <p class="meta">美元指数 ETF 代理。</p>
+  </a><a class="card" href="../../asset/euro/">
+    <h2>Euro</h2>
+    <p class="meta">FX vs USD · AMEX:FXE</p>
+    <p class="meta">欧元 ETF 代理。</p>
+  </a><a class="card" href="../../asset/british-pound/">
+    <h2>British pound</h2>
+    <p class="meta">FX vs USD · AMEX:FXB</p>
+    <p class="meta">英镑 ETF 代理。</p>
+  </a><a class="card" href="../../asset/japanese-yen/">
+    <h2>Japanese yen</h2>
+    <p class="meta">FX vs USD · AMEX:FXY</p>
+    <p class="meta">日元 ETF 代理。</p>
+  </a><a class="card" href="../../asset/swiss-franc/">
+    <h2>Swiss franc</h2>
+    <p class="meta">FX vs USD · AMEX:FXF</p>
+    <p class="meta">瑞郎 ETF 代理。</p>
+  </a><a class="card" href="../../asset/australian-dollar/">
+    <h2>Australian dollar</h2>
+    <p class="meta">FX vs USD · AMEX:FXA</p>
+    <p class="meta">澳元 ETF 代理。</p>
+  </a><a class="card" href="../../asset/canadian-dollar/">
+    <h2>Canadian dollar</h2>
+    <p class="meta">FX vs USD · AMEX:FXC</p>
+    <p class="meta">加元 ETF 代理。</p>
+  </a><a class="card" href="../../asset/nz-dollar/">
+    <h2>NZ dollar</h2>
+    <p class="meta">FX vs USD · FX:NZDUSD</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/norwegian-krone/">
+    <h2>Norwegian krone</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDNOK</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/swedish-krona/">
+    <h2>Swedish krona</h2>
+    <p class="meta">FX vs USD · AMEX:SZK</p>
+    <p class="meta">瑞典克朗 ETF 代理。</p>
+  </a><a class="card" href="../../asset/singapore-dollar/">
+    <h2>Singapore dollar</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDSGD</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/chinese-renminbi/">
+    <h2>Chinese renminbi</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDCNH</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/korean-won/">
+    <h2>Korean won</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDKRW</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/taiwanese-dollar/">
+    <h2>Taiwanese dollar</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDTWD</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/indian-rupee/">
+    <h2>Indian rupee</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDINR</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/indonesian-rupiah/">
+    <h2>Indonesian rupiah</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDIDR</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/mexican-peso/">
+    <h2>Mexican peso</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDMXN</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/brazilian-real/">
+    <h2>Brazilian real</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDBRL</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/south-african-rand/">
+    <h2>South African rand</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDZAR</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/turkish-lira/">
+    <h2>Turkish lira</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDTRY</p>
+    <p class="meta">原生外汇报价。</p>
+  </a><a class="card" href="../../asset/argentine-peso/">
+    <h2>Argentine peso</h2>
+    <p class="meta">FX vs USD · FX_IDC:USDARS</p>
+    <p class="meta">原生外汇报价。</p>
+  </a></div>
+        </section>
+        <article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>US Dollar</h3>
+        <p>AMEX:UUP</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AUUP" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Currency ETF proxy</span></div>
+    <p class="desc">美元指数 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:UUP",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Euro</h3>
+        <p>AMEX:FXE</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AFXE" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Currency ETF proxy</span></div>
+    <p class="desc">欧元 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:FXE",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>British pound</h3>
+        <p>AMEX:FXB</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AFXB" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Currency ETF proxy</span></div>
+    <p class="desc">英镑 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:FXB",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Japanese yen</h3>
+        <p>AMEX:FXY</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AFXY" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Currency ETF proxy</span></div>
+    <p class="desc">日元 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:FXY",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Swiss franc</h3>
+        <p>AMEX:FXF</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AFXF" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Currency ETF proxy</span></div>
+    <p class="desc">瑞郎 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:FXF",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Australian dollar</h3>
+        <p>AMEX:FXA</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AFXA" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Currency ETF proxy</span></div>
+    <p class="desc">澳元 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:FXA",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Canadian dollar</h3>
+        <p>AMEX:FXC</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AFXC" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Currency ETF proxy</span></div>
+    <p class="desc">加元 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:FXC",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>NZ dollar</h3>
+        <p>FX:NZDUSD</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX%3ANZDUSD" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX:NZDUSD",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Norwegian krone</h3>
+        <p>FX_IDC:USDNOK</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDNOK" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDNOK",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Swedish krona</h3>
+        <p>AMEX:SZK</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3ASZK" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Currency ETF proxy</span></div>
+    <p class="desc">瑞典克朗 ETF 代理。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:SZK",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Singapore dollar</h3>
+        <p>FX_IDC:USDSGD</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDSGD" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDSGD",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Chinese renminbi</h3>
+        <p>FX_IDC:USDCNH</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDCNH" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDCNH",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Korean won</h3>
+        <p>FX_IDC:USDKRW</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDKRW" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDKRW",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Taiwanese dollar</h3>
+        <p>FX_IDC:USDTWD</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDTWD" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDTWD",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Indian rupee</h3>
+        <p>FX_IDC:USDINR</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDINR" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDINR",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Indonesian rupiah</h3>
+        <p>FX_IDC:USDIDR</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDIDR" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDIDR",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Mexican peso</h3>
+        <p>FX_IDC:USDMXN</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDMXN" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDMXN",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Brazilian real</h3>
+        <p>FX_IDC:USDBRL</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDBRL" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDBRL",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>South African rand</h3>
+        <p>FX_IDC:USDZAR</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDZAR" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDZAR",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Turkish lira</h3>
+        <p>FX_IDC:USDTRY</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDTRY" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDTRY",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>Argentine peso</h3>
+        <p>FX_IDC:USDARS</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDARS" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">Native FX / Dollar</span></div>
+    <p class="desc">原生外汇报价。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "FX_IDC:USDARS",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article>
+      </main>
+    
+</body>
+</html>

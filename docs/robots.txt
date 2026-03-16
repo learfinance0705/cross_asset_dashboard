@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://learfinance0705.github.io/cross_asset_dashboard/sitemap.xml

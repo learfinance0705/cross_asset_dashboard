@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sectors | Cross Asset Board</title>
+  <meta name="description" content="全球行业主题 ETF 代理。" />
+  <style>
+    :root { --bg:#08101d; --panel:#111a31; --panel2:#18254a; --text:#eef3ff; --muted:#94a4cf; --border:#2b3c71; --link:#d3b071; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background: radial-gradient(circle at top, #102042, #08101d 55%); color: var(--text); }
+    header { padding: 22px 18px 16px; border-bottom: 1px solid var(--border); background: rgba(8,16,29,.88); position: sticky; top: 0; backdrop-filter: blur(10px); }
+    main { max-width: 1260px; margin: 0 auto; padding: 20px 18px 40px; }
+    h1, h2, h3 { margin: 0 0 8px; }
+    p { margin: 0; color: var(--muted); }
+    a { color: var(--text); text-decoration: none; }
+    .nav { margin-top: 14px; display:flex; flex-wrap:wrap; gap:10px; }
+    .pill { padding: 8px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,.03); }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .card { display:block; padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .meta { margin-top: 8px; font-size: 13px; color: var(--muted); }
+    .stack { display:grid; gap: 16px; }
+    .chart-card { border: 1px solid var(--border); border-radius: 16px; overflow:hidden; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .chart-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:12px 14px; border-bottom:1px solid var(--border); }
+    .badge { font-size:12px; color:#bed2ff; padding:4px 8px; border:1px solid rgba(115,168,255,.35); border-radius:999px; }
+    .tags { display:flex; flex-wrap:wrap; gap:8px; padding: 10px 14px 0; }
+    .tag { font-size:12px; color:#cbd7f5; padding:3px 8px; border-radius:999px; background: rgba(255,255,255,.05); border:1px solid var(--border); }
+    .desc { padding: 0 14px 12px; color: var(--muted); font-size: 14px; }
+    .chart { height: 380px; padding: 10px 14px 14px; }
+    .chart.fred { height: 530px; }
+    .note-card { padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px; }
+    .link { color: var(--link); font-size: 13px; }
+    pre { margin: 0; padding: 14px; overflow:auto; border-radius: 12px; background:#0b1327; color:#dce6ff; border:1px solid var(--border); }
+    iframe { width:100%; height:100%; border:0; border-radius:12px; background:#fff; }
+    .tradingview-widget-container, .tradingview-widget-container__widget { height:100%; width:100%; }
+  </style>
+  <script async src="https://fred.stlouisfed.org/assets/research/fred-graph-react/embed.min.js"></script>
+</head>
+<body>
+  
+      <header>
+        <h1>Sectors</h1>
+        <p>全球行业主题 ETF 代理。</p>
+        <div class="nav">
+          <a class="pill" href="../../">← All Classes</a>
+          <a class="pill" href="../../group/us-treasury-baseline/">US Treasury Baseline</a><a class="pill" href="../../group/commodities/">Commodities</a><a class="pill" href="../../group/equities/">Equities</a><a class="pill" href="../../group/fixed-income/">Fixed Income</a><a class="pill" href="../../group/fx-vs-usd/">FX vs USD</a><a class="pill" href="../../group/sectors/">Sectors</a>
+        </div>
+      </header>
+      <main class="stack">
+        <section class="stack">
+          <h2>Assets</h2>
+          <div class="grid"><a class="card" href="../../asset/acwi-energy/">
+    <h2>ACWI Energy</h2>
+    <p class="meta">Sectors · AMEX:IXC</p>
+    <p class="meta">全球能源行业 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-materials/">
+    <h2>ACWI Materials</h2>
+    <p class="meta">Sectors · AMEX:MXI</p>
+    <p class="meta">全球材料行业 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-industrials/">
+    <h2>ACWI Industrials</h2>
+    <p class="meta">Sectors · AMEX:EXI</p>
+    <p class="meta">全球工业行业 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-utilities/">
+    <h2>ACWI Utilities</h2>
+    <p class="meta">Sectors · AMEX:JXI</p>
+    <p class="meta">全球公用事业 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-biotechnology/">
+    <h2>ACWI BioTechnology</h2>
+    <p class="meta">Sectors · NASDAQ:IBB</p>
+    <p class="meta">生物科技 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-banks/">
+    <h2>ACWI Banks</h2>
+    <p class="meta">Sectors · AMEX:KBE</p>
+    <p class="meta">银行业 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-healthcare/">
+    <h2>ACWI Healthcare</h2>
+    <p class="meta">Sectors · AMEX:IXJ</p>
+    <p class="meta">全球医疗保健 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-consumer-staples/">
+    <h2>ACWI Consumer Staples</h2>
+    <p class="meta">Sectors · AMEX:KXI</p>
+    <p class="meta">必需消费 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-telecoms/">
+    <h2>ACWI Telecoms</h2>
+    <p class="meta">Sectors · AMEX:IXP</p>
+    <p class="meta">全球电信 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-info-tech/">
+    <h2>ACWI Info Tech</h2>
+    <p class="meta">Sectors · AMEX:IXN</p>
+    <p class="meta">全球信息技术 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-financials/">
+    <h2>ACWI Financials</h2>
+    <p class="meta">Sectors · AMEX:IXG</p>
+    <p class="meta">全球金融 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-real-estate/">
+    <h2>ACWI Real Estate</h2>
+    <p class="meta">Sectors · AMEX:RWO</p>
+    <p class="meta">全球房地产 ETF。</p>
+  </a><a class="card" href="../../asset/acwi-cons-discretionary/">
+    <h2>ACWI Cons. Discretionary</h2>
+    <p class="meta">Sectors · AMEX:RXI</p>
+    <p class="meta">可选消费 ETF。</p>
+  </a></div>
+        </section>
+        <article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Energy</h3>
+        <p>AMEX:IXC</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AIXC" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球能源行业 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:IXC",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Materials</h3>
+        <p>AMEX:MXI</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AMXI" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球材料行业 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:MXI",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Industrials</h3>
+        <p>AMEX:EXI</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AEXI" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球工业行业 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:EXI",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Utilities</h3>
+        <p>AMEX:JXI</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AJXI" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球公用事业 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:JXI",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI BioTechnology</h3>
+        <p>NASDAQ:IBB</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=NASDAQ%3AIBB" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">生物科技 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "NASDAQ:IBB",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Banks</h3>
+        <p>AMEX:KBE</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AKBE" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">银行业 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:KBE",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Healthcare</h3>
+        <p>AMEX:IXJ</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AIXJ" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球医疗保健 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:IXJ",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Consumer Staples</h3>
+        <p>AMEX:KXI</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AKXI" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">必需消费 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:KXI",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Telecoms</h3>
+        <p>AMEX:IXP</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AIXP" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球电信 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:IXP",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Info Tech</h3>
+        <p>AMEX:IXN</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AIXN" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球信息技术 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:IXN",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Financials</h3>
+        <p>AMEX:IXG</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3AIXG" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球金融 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:IXG",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Real Estate</h3>
+        <p>AMEX:RWO</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3ARWO" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">全球房地产 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:RWO",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article><article class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h3>ACWI Cons. Discretionary</h3>
+        <p>AMEX:RXI</p>
+      </div>
+      <a class="badge" href="https://www.tradingview.com/chart/?symbol=AMEX%3ARXI" target="_blank" rel="noopener noreferrer">TradingView ↗</a>
+    </div>
+    <div class="tags"><span class="tag">ETF / Equity proxy</span></div>
+    <p class="desc">可选消费 ETF。</p>
+    <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "AMEX:RXI",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "allow_symbol_change": false,
+        "hide_top_toolbar": false,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+  </article>
+      </main>
+    
+</body>
+</html>

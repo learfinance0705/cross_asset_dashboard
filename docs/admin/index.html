@@ -1,0 +1,1226 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cross Asset Board | GitHub Pages Admin</title>
+  <meta name="description" content="GitHub Pages 静态管理入口" />
+  <style>
+    :root { --bg:#08101d; --panel:#111a31; --panel2:#18254a; --text:#eef3ff; --muted:#94a4cf; --border:#2b3c71; --link:#d3b071; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background: radial-gradient(circle at top, #102042, #08101d 55%); color: var(--text); }
+    header { padding: 22px 18px 16px; border-bottom: 1px solid var(--border); background: rgba(8,16,29,.88); position: sticky; top: 0; backdrop-filter: blur(10px); }
+    main { max-width: 1260px; margin: 0 auto; padding: 20px 18px 40px; }
+    h1, h2, h3 { margin: 0 0 8px; }
+    p { margin: 0; color: var(--muted); }
+    a { color: var(--text); text-decoration: none; }
+    .nav { margin-top: 14px; display:flex; flex-wrap:wrap; gap:10px; }
+    .pill { padding: 8px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,.03); }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .card { display:block; padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .meta { margin-top: 8px; font-size: 13px; color: var(--muted); }
+    .stack { display:grid; gap: 16px; }
+    .chart-card { border: 1px solid var(--border); border-radius: 16px; overflow:hidden; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .chart-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:12px 14px; border-bottom:1px solid var(--border); }
+    .badge { font-size:12px; color:#bed2ff; padding:4px 8px; border:1px solid rgba(115,168,255,.35); border-radius:999px; }
+    .tags { display:flex; flex-wrap:wrap; gap:8px; padding: 10px 14px 0; }
+    .tag { font-size:12px; color:#cbd7f5; padding:3px 8px; border-radius:999px; background: rgba(255,255,255,.05); border:1px solid var(--border); }
+    .desc { padding: 0 14px 12px; color: var(--muted); font-size: 14px; }
+    .chart { height: 380px; padding: 10px 14px 14px; }
+    .chart.fred { height: 530px; }
+    .note-card { padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, var(--panel), var(--panel2)); }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px; }
+    .link { color: var(--link); font-size: 13px; }
+    pre { margin: 0; padding: 14px; overflow:auto; border-radius: 12px; background:#0b1327; color:#dce6ff; border:1px solid var(--border); }
+    iframe { width:100%; height:100%; border:0; border-radius:12px; background:#fff; }
+    .tradingview-widget-container, .tradingview-widget-container__widget { height:100%; width:100%; }
+  </style>
+  <script async src="https://fred.stlouisfed.org/assets/research/fred-graph-react/embed.min.js"></script>
+</head>
+<body>
+  
+      <header>
+        <h1>GitHub Pages 管理入口</h1>
+        <p>这个版本是纯静态站点，没有在线保存接口。更新内容时，请直接编辑仓库里的 JSON 数据文件，再重新发布 Pages。</p>
+        <div class="nav">
+          <a class="pill" href="../">← Public Home</a>
+          <a class="pill" href="https://github.com/learfinance0705/cross_asset_dashboard" target="_blank" rel="noopener noreferrer">GitHub Repo ↗</a>
+          <a class="pill" href="https://github.com/learfinance0705/cross_asset_dashboard/edit/main/data/site.json" target="_blank" rel="noopener noreferrer">编辑 site.json ↗</a>
+        </div>
+      </header>
+      <main class="stack">
+        <section class="note-card stack">
+          <h2>如何更新内容</h2>
+          <p>1. 在 GitHub 打开 <code>data/site.json</code>。</p>
+          <p>2. 修改资产分组、symbol、说明或排序。</p>
+          <p>3. 提交到 <code>main</code> 分支后，GitHub Actions 会自动重新生成静态页并发布 Pages。</p>
+        </section>
+        <section class="stack">
+          <h2>当前数据快照</h2>
+          <pre>{
+  &quot;site&quot;: {
+    &quot;title&quot;: &quot;Cross Asset Board&quot;,
+    &quot;description&quot;: &quot;全球资产 K 线看盘板｜按资产大类分页，减少单次缓存与加载压力&quot;,
+    &quot;updatedAt&quot;: &quot;2026-03-15T20:45:00Z&quot;
+  },
+  &quot;groups&quot;: [
+    {
+      &quot;name&quot;: &quot;US Treasury Baseline&quot;,
+      &quot;slug&quot;: &quot;us-treasury-baseline&quot;,
+      &quot;description&quot;: &quot;全球资产定价常用的美国国债利率基准。&quot;,
+      &quot;assets&quot;: [
+        {
+          &quot;name&quot;: &quot;3-Month Treasury Yield&quot;,
+          &quot;slug&quot;: &quot;us-3-month-treasury-yield&quot;,
+          &quot;symbol&quot;: &quot;TVC:US03M&quot;,
+          &quot;sourceType&quot;: &quot;fred&quot;,
+          &quot;sourceId&quot;: &quot;DGS3MO&quot;,
+          &quot;embedUrl&quot;: &quot;https://fred.stlouisfed.org/graph/graph-landing.php?g=1TAwr&amp;width=670&amp;height=475&quot;,
+          &quot;externalUrl&quot;: &quot;https://fred.stlouisfed.org/series/DGS3MO&quot;,
+          &quot;description&quot;: &quot;美国国债短端基准利率序列。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;,
+            &quot;Global pricing benchmark&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;1-Year Treasury Yield&quot;,
+          &quot;slug&quot;: &quot;us-1-year-treasury-yield&quot;,
+          &quot;symbol&quot;: &quot;TVC:US01Y&quot;,
+          &quot;sourceType&quot;: &quot;fred&quot;,
+          &quot;sourceId&quot;: &quot;DGS1&quot;,
+          &quot;embedUrl&quot;: &quot;https://fred.stlouisfed.org/graph/graph-landing.php?g=1TAwu&amp;width=670&amp;height=475&quot;,
+          &quot;externalUrl&quot;: &quot;https://fred.stlouisfed.org/series/DGS1&quot;,
+          &quot;description&quot;: &quot;美国国债 1 年期基准利率序列。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;,
+            &quot;Global pricing benchmark&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;2-Year Treasury Yield&quot;,
+          &quot;slug&quot;: &quot;us-2-year-treasury-yield&quot;,
+          &quot;symbol&quot;: &quot;TVC:US02Y&quot;,
+          &quot;sourceType&quot;: &quot;fred&quot;,
+          &quot;sourceId&quot;: &quot;DGS2&quot;,
+          &quot;embedUrl&quot;: &quot;https://fred.stlouisfed.org/graph/graph-landing.php?g=1TAwv&amp;width=670&amp;height=475&quot;,
+          &quot;externalUrl&quot;: &quot;https://fred.stlouisfed.org/series/DGS2&quot;,
+          &quot;description&quot;: &quot;美国国债 2 年期基准利率序列。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;,
+            &quot;Global pricing benchmark&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;5-Year Treasury Yield&quot;,
+          &quot;slug&quot;: &quot;us-5-year-treasury-yield&quot;,
+          &quot;symbol&quot;: &quot;TVC:US05Y&quot;,
+          &quot;sourceType&quot;: &quot;fred&quot;,
+          &quot;sourceId&quot;: &quot;DGS5&quot;,
+          &quot;embedUrl&quot;: &quot;https://fred.stlouisfed.org/graph/graph-landing.php?g=1TAwx&amp;width=670&amp;height=475&quot;,
+          &quot;externalUrl&quot;: &quot;https://fred.stlouisfed.org/series/DGS5&quot;,
+          &quot;description&quot;: &quot;美国国债 5 年期基准利率序列。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;,
+            &quot;Global pricing benchmark&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;10-Year Treasury Yield&quot;,
+          &quot;slug&quot;: &quot;us-10-year-treasury-yield&quot;,
+          &quot;symbol&quot;: &quot;TVC:US10Y&quot;,
+          &quot;sourceType&quot;: &quot;fred&quot;,
+          &quot;sourceId&quot;: &quot;DGS10&quot;,
+          &quot;embedUrl&quot;: &quot;https://fred.stlouisfed.org/graph/graph-landing.php?g=1TAwo&amp;width=670&amp;height=475&quot;,
+          &quot;externalUrl&quot;: &quot;https://fred.stlouisfed.org/series/DGS10&quot;,
+          &quot;description&quot;: &quot;美国国债 10 年期基准利率序列。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;,
+            &quot;Global pricing benchmark&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;30-Year Treasury Yield&quot;,
+          &quot;slug&quot;: &quot;us-30-year-treasury-yield&quot;,
+          &quot;symbol&quot;: &quot;TVC:US30Y&quot;,
+          &quot;sourceType&quot;: &quot;fred&quot;,
+          &quot;sourceId&quot;: &quot;DGS30&quot;,
+          &quot;embedUrl&quot;: &quot;https://fred.stlouisfed.org/graph/graph-landing.php?g=1TAwB&amp;width=670&amp;height=475&quot;,
+          &quot;externalUrl&quot;: &quot;https://fred.stlouisfed.org/series/DGS30&quot;,
+          &quot;description&quot;: &quot;美国国债 30 年期基准利率序列。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;,
+            &quot;Global pricing benchmark&quot;
+          ]
+        }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;Commodities&quot;,
+      &quot;slug&quot;: &quot;commodities&quot;,
+      &quot;description&quot;: &quot;贵金属、能源、工业品与加密资产代理。&quot;,
+      &quot;assets&quot;: [
+        {
+          &quot;name&quot;: &quot;Gold&quot;,
+          &quot;slug&quot;: &quot;gold&quot;,
+          &quot;symbol&quot;: &quot;AMEX:GLD&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AGLD&quot;,
+          &quot;description&quot;: &quot;黄金 ETF wrapper。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Silver&quot;,
+          &quot;slug&quot;: &quot;silver&quot;,
+          &quot;symbol&quot;: &quot;AMEX:SLV&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ASLV&quot;,
+          &quot;description&quot;: &quot;白银 ETF wrapper。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Bitcoin&quot;,
+          &quot;slug&quot;: &quot;bitcoin&quot;,
+          &quot;symbol&quot;: &quot;BINANCE:BTCUSDT&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=BINANCE%3ABTCUSDT&quot;,
+          &quot;description&quot;: &quot;Binance 加密现货交易对。&quot;,
+          &quot;tags&quot;: [
+            &quot;Crypto spot&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Ethereum&quot;,
+          &quot;slug&quot;: &quot;ethereum&quot;,
+          &quot;symbol&quot;: &quot;BINANCE:ETHUSDT&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=BINANCE%3AETHUSDT&quot;,
+          &quot;description&quot;: &quot;Binance 加密现货交易对。&quot;,
+          &quot;tags&quot;: [
+            &quot;Crypto spot&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Trump Coin&quot;,
+          &quot;slug&quot;: &quot;trump-coin&quot;,
+          &quot;symbol&quot;: &quot;BINANCE:TRUMPUSDT&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=BINANCE%3ATRUMPUSDT&quot;,
+          &quot;description&quot;: &quot;Binance 加密现货交易对。&quot;,
+          &quot;tags&quot;: [
+            &quot;Crypto spot&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Platinum&quot;,
+          &quot;slug&quot;: &quot;platinum&quot;,
+          &quot;symbol&quot;: &quot;AMEX:PPLT&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3APPLT&quot;,
+          &quot;description&quot;: &quot;铂金 ETF wrapper。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Brent Crude Oil&quot;,
+          &quot;slug&quot;: &quot;brent-crude-oil&quot;,
+          &quot;symbol&quot;: &quot;AMEX:BNO&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ABNO&quot;,
+          &quot;description&quot;: &quot;Brent 原油 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;WTI Crude Oil&quot;,
+          &quot;slug&quot;: &quot;wti-crude-oil&quot;,
+          &quot;symbol&quot;: &quot;AMEX:USO&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AUSO&quot;,
+          &quot;description&quot;: &quot;WTI 原油 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Natural Gas&quot;,
+          &quot;slug&quot;: &quot;natural-gas&quot;,
+          &quot;symbol&quot;: &quot;AMEX:UNG&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AUNG&quot;,
+          &quot;description&quot;: &quot;天然气 ETF wrapper。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Copper&quot;,
+          &quot;slug&quot;: &quot;copper&quot;,
+          &quot;symbol&quot;: &quot;AMEX:CPER&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ACPER&quot;,
+          &quot;description&quot;: &quot;铜 ETF wrapper。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Iron Ore&quot;,
+          &quot;slug&quot;: &quot;iron-ore&quot;,
+          &quot;symbol&quot;: &quot;CBOE:PICK&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=CBOE%3APICK&quot;,
+          &quot;description&quot;: &quot;矿业篮子代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Miner basket proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Industrial Metals&quot;,
+          &quot;slug&quot;: &quot;industrial-metals&quot;,
+          &quot;symbol&quot;: &quot;AMEX:DBB&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ADBB&quot;,
+          &quot;description&quot;: &quot;工业金属 ETF wrapper。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Oil&quot;,
+          &quot;slug&quot;: &quot;oil&quot;,
+          &quot;symbol&quot;: &quot;AMEX:USO&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AUSO&quot;,
+          &quot;description&quot;: &quot;Oil ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF wrapper&quot;
+          ]
+        }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;Equities&quot;,
+      &quot;slug&quot;: &quot;equities&quot;,
+      &quot;description&quot;: &quot;全球股票市场代理。&quot;,
+      &quot;assets&quot;: [
+        {
+          &quot;name&quot;: &quot;US Equities&quot;,
+          &quot;slug&quot;: &quot;us-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:SPY&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ASPY&quot;,
+          &quot;description&quot;: &quot;S&amp;P 500 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Europe Equities&quot;,
+          &quot;slug&quot;: &quot;europe-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:VGK&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AVGK&quot;,
+          &quot;description&quot;: &quot;欧洲股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;UK Equities&quot;,
+          &quot;slug&quot;: &quot;uk-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWU&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWU&quot;,
+          &quot;description&quot;: &quot;英国股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Japan Equities&quot;,
+          &quot;slug&quot;: &quot;japan-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWJ&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWJ&quot;,
+          &quot;description&quot;: &quot;日本股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Pacific Rim xJapan&quot;,
+          &quot;slug&quot;: &quot;pacific-rim-xjapan&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EPP&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEPP&quot;,
+          &quot;description&quot;: &quot;亚太除日本股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;EM Equities&quot;,
+          &quot;slug&quot;: &quot;em-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EEM&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEEM&quot;,
+          &quot;description&quot;: &quot;新兴市场股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;China Equities&quot;,
+          &quot;slug&quot;: &quot;china-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:FXI&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AFXI&quot;,
+          &quot;description&quot;: &quot;中国大盘 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;India Equities&quot;,
+          &quot;slug&quot;: &quot;india-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:INDA&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AINDA&quot;,
+          &quot;description&quot;: &quot;印度股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Korea Equities&quot;,
+          &quot;slug&quot;: &quot;korea-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWY&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWY&quot;,
+          &quot;description&quot;: &quot;韩国股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Taiwan Equities&quot;,
+          &quot;slug&quot;: &quot;taiwan-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWT&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWT&quot;,
+          &quot;description&quot;: &quot;台湾股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Hong Kong Equities&quot;,
+          &quot;slug&quot;: &quot;hong-kong-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWH&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWH&quot;,
+          &quot;description&quot;: &quot;香港股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Singapore Equities&quot;,
+          &quot;slug&quot;: &quot;singapore-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWS&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWS&quot;,
+          &quot;description&quot;: &quot;新加坡股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Australia Equities&quot;,
+          &quot;slug&quot;: &quot;australia-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWA&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWA&quot;,
+          &quot;description&quot;: &quot;澳大利亚股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Canada Equities&quot;,
+          &quot;slug&quot;: &quot;canada-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWC&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWC&quot;,
+          &quot;description&quot;: &quot;加拿大股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Brazil Equities&quot;,
+          &quot;slug&quot;: &quot;brazil-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWZ&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWZ&quot;,
+          &quot;description&quot;: &quot;巴西股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Mexico Equities&quot;,
+          &quot;slug&quot;: &quot;mexico-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWW&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWW&quot;,
+          &quot;description&quot;: &quot;墨西哥股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;S. Africa Equities&quot;,
+          &quot;slug&quot;: &quot;south-africa-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EZA&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEZA&quot;,
+          &quot;description&quot;: &quot;南非股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Türkiye Equities&quot;,
+          &quot;slug&quot;: &quot;turkiye-equities&quot;,
+          &quot;symbol&quot;: &quot;BIST:XU100&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=BIST%3AXU100&quot;,
+          &quot;description&quot;: &quot;土耳其 BIST 100 本地指数。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native index&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Switzerland Equities&quot;,
+          &quot;slug&quot;: &quot;switzerland-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWL&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWL&quot;,
+          &quot;description&quot;: &quot;瑞士股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Germany Equities&quot;,
+          &quot;slug&quot;: &quot;germany-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWG&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWG&quot;,
+          &quot;description&quot;: &quot;德国股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;France Equities&quot;,
+          &quot;slug&quot;: &quot;france-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWQ&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWQ&quot;,
+          &quot;description&quot;: &quot;法国股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Italy Equities&quot;,
+          &quot;slug&quot;: &quot;italy-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWI&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWI&quot;,
+          &quot;description&quot;: &quot;意大利股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Spain Equities&quot;,
+          &quot;slug&quot;: &quot;spain-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EWP&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEWP&quot;,
+          &quot;description&quot;: &quot;西班牙股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Portugal Equities&quot;,
+          &quot;slug&quot;: &quot;portugal-equities&quot;,
+          &quot;symbol&quot;: &quot;EURONEXT:PSI20&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=EURONEXT%3APSI20&quot;,
+          &quot;description&quot;: &quot;葡萄牙 PSI 20 本地指数。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native index&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Greece Equities&quot;,
+          &quot;slug&quot;: &quot;greece-equities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:GREK&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AGREK&quot;,
+          &quot;description&quot;: &quot;希腊股票 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;Fixed Income&quot;,
+      &quot;slug&quot;: &quot;fixed-income&quot;,
+      &quot;description&quot;: &quot;信用债、主权债与债券 ETF 代理。&quot;,
+      &quot;assets&quot;: [
+        {
+          &quot;name&quot;: &quot;Government Bonds&quot;,
+          &quot;slug&quot;: &quot;government-bonds&quot;,
+          &quot;symbol&quot;: &quot;AMEX:GOVT&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AGOVT&quot;,
+          &quot;description&quot;: &quot;美国国债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;EM Sovereign&quot;,
+          &quot;slug&quot;: &quot;em-sovereign&quot;,
+          &quot;symbol&quot;: &quot;NASDAQ:VWOB&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=NASDAQ%3AVWOB&quot;,
+          &quot;description&quot;: &quot;新兴市场主权债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;EM Sovereign Bonds&quot;,
+          &quot;slug&quot;: &quot;em-sovereign-bonds&quot;,
+          &quot;symbol&quot;: &quot;NASDAQ:VWOB&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=NASDAQ%3AVWOB&quot;,
+          &quot;description&quot;: &quot;新兴市场主权债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;EM Corporate&quot;,
+          &quot;slug&quot;: &quot;em-corporate&quot;,
+          &quot;symbol&quot;: &quot;NASDAQ:EMCB&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=NASDAQ%3AEMCB&quot;,
+          &quot;description&quot;: &quot;新兴市场企业债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;High Yield Bonds&quot;,
+          &quot;slug&quot;: &quot;high-yield-bonds&quot;,
+          &quot;symbol&quot;: &quot;AMEX:HYG&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AHYG&quot;,
+          &quot;description&quot;: &quot;高收益债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;IG Bonds&quot;,
+          &quot;slug&quot;: &quot;ig-bonds&quot;,
+          &quot;symbol&quot;: &quot;AMEX:LQD&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ALQD&quot;,
+          &quot;description&quot;: &quot;投资级债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;US Corp IG&quot;,
+          &quot;slug&quot;: &quot;us-corp-ig&quot;,
+          &quot;symbol&quot;: &quot;AMEX:LQD&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ALQD&quot;,
+          &quot;description&quot;: &quot;美国投资级企业债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;US Corp HY&quot;,
+          &quot;slug&quot;: &quot;us-corp-hy&quot;,
+          &quot;symbol&quot;: &quot;AMEX:HYG&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AHYG&quot;,
+          &quot;description&quot;: &quot;美国高收益企业债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;BBB IG&quot;,
+          &quot;slug&quot;: &quot;bbb-ig&quot;,
+          &quot;symbol&quot;: &quot;NASDAQ:VCIT&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=NASDAQ%3AVCIT&quot;,
+          &quot;description&quot;: &quot;BBB 投资级债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;European HY&quot;,
+          &quot;slug&quot;: &quot;european-hy&quot;,
+          &quot;symbol&quot;: &quot;CBOE:EUHY&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=CBOE%3AEUHY&quot;,
+          &quot;description&quot;: &quot;欧洲高收益债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Europe HY proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;CCC HY&quot;,
+          &quot;slug&quot;: &quot;ccc-hy&quot;,
+          &quot;symbol&quot;: &quot;AMEX:JNK&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AJNK&quot;,
+          &quot;description&quot;: &quot;CCC 高收益债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Treasury Master&quot;,
+          &quot;slug&quot;: &quot;treasury-master&quot;,
+          &quot;symbol&quot;: &quot;NASDAQ:IEF&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=NASDAQ%3AIEF&quot;,
+          &quot;description&quot;: &quot;中期美债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;TIPS&quot;,
+          &quot;slug&quot;: &quot;tips&quot;,
+          &quot;symbol&quot;: &quot;AMEX:TIP&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ATIP&quot;,
+          &quot;description&quot;: &quot;通胀保值债 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;3-Month T-Bills&quot;,
+          &quot;slug&quot;: &quot;3-month-t-bills&quot;,
+          &quot;symbol&quot;: &quot;AMEX:BIL&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ABIL&quot;,
+          &quot;description&quot;: &quot;3 个月 T-Bill ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;2-year Treasury&quot;,
+          &quot;slug&quot;: &quot;2-year-treasury&quot;,
+          &quot;symbol&quot;: &quot;AMEX:SHY&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ASHY&quot;,
+          &quot;description&quot;: &quot;2 年期美债 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;30-year Treasury&quot;,
+          &quot;slug&quot;: &quot;30-year-treasury&quot;,
+          &quot;symbol&quot;: &quot;AMEX:TLT&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ATLT&quot;,
+          &quot;description&quot;: &quot;长期美债 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;US Mortgage Master&quot;,
+          &quot;slug&quot;: &quot;us-mortgage-master&quot;,
+          &quot;symbol&quot;: &quot;NASDAQ:MBB&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=NASDAQ%3AMBB&quot;,
+          &quot;description&quot;: &quot;美国按揭债 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;UK Govt&quot;,
+          &quot;slug&quot;: &quot;uk-govt&quot;,
+          &quot;symbol&quot;: &quot;TVC:GB10Y&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=TVC%3AGB10Y&quot;,
+          &quot;description&quot;: &quot;英国 10 年期国债收益率序列。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;German Govt&quot;,
+          &quot;slug&quot;: &quot;german-govt&quot;,
+          &quot;symbol&quot;: &quot;TVC:DE10Y&quot;,
+          &quot;sourceType&quot;: &quot;fred&quot;,
+          &quot;sourceId&quot;: &quot;IRLTLT01DEM156N&quot;,
+          &quot;embedUrl&quot;: &quot;https://fred.stlouisfed.org/graph/graph-landing.php?g=1TAEF&amp;width=670&amp;height=475&quot;,
+          &quot;externalUrl&quot;: &quot;https://fred.stlouisfed.org/series/IRLTLT01DEM156N&quot;,
+          &quot;description&quot;: &quot;FRED 德国长期国债收益率交互图。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Japan Govt&quot;,
+          &quot;slug&quot;: &quot;japan-govt&quot;,
+          &quot;symbol&quot;: &quot;TVC:JP10Y&quot;,
+          &quot;sourceType&quot;: &quot;fred&quot;,
+          &quot;sourceId&quot;: &quot;IRLTLT01JPM156N&quot;,
+          &quot;embedUrl&quot;: &quot;https://fred.stlouisfed.org/graph/graph-landing.php?g=1TAEG&amp;width=670&amp;height=475&quot;,
+          &quot;externalUrl&quot;: &quot;https://fred.stlouisfed.org/series/IRLTLT01JPM156N&quot;,
+          &quot;description&quot;: &quot;FRED 日本长期国债收益率交互图。&quot;,
+          &quot;tags&quot;: [
+            &quot;Yield series&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Non-US IG Govt&quot;,
+          &quot;slug&quot;: &quot;non-us-ig-govt&quot;,
+          &quot;symbol&quot;: &quot;AMEX:BWX&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ABWX&quot;,
+          &quot;description&quot;: &quot;非美国投资级政府债 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Bond ETF proxy&quot;
+          ]
+        }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;FX vs USD&quot;,
+      &quot;slug&quot;: &quot;fx-vs-usd&quot;,
+      &quot;description&quot;: &quot;美元与主要及新兴货币相对价格代理。&quot;,
+      &quot;assets&quot;: [
+        {
+          &quot;name&quot;: &quot;US Dollar&quot;,
+          &quot;slug&quot;: &quot;us-dollar&quot;,
+          &quot;symbol&quot;: &quot;AMEX:UUP&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AUUP&quot;,
+          &quot;description&quot;: &quot;美元指数 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Currency ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Euro&quot;,
+          &quot;slug&quot;: &quot;euro&quot;,
+          &quot;symbol&quot;: &quot;AMEX:FXE&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AFXE&quot;,
+          &quot;description&quot;: &quot;欧元 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Currency ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;British pound&quot;,
+          &quot;slug&quot;: &quot;british-pound&quot;,
+          &quot;symbol&quot;: &quot;AMEX:FXB&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AFXB&quot;,
+          &quot;description&quot;: &quot;英镑 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Currency ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Japanese yen&quot;,
+          &quot;slug&quot;: &quot;japanese-yen&quot;,
+          &quot;symbol&quot;: &quot;AMEX:FXY&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AFXY&quot;,
+          &quot;description&quot;: &quot;日元 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Currency ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Swiss franc&quot;,
+          &quot;slug&quot;: &quot;swiss-franc&quot;,
+          &quot;symbol&quot;: &quot;AMEX:FXF&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AFXF&quot;,
+          &quot;description&quot;: &quot;瑞郎 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Currency ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Australian dollar&quot;,
+          &quot;slug&quot;: &quot;australian-dollar&quot;,
+          &quot;symbol&quot;: &quot;AMEX:FXA&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AFXA&quot;,
+          &quot;description&quot;: &quot;澳元 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Currency ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Canadian dollar&quot;,
+          &quot;slug&quot;: &quot;canadian-dollar&quot;,
+          &quot;symbol&quot;: &quot;AMEX:FXC&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AFXC&quot;,
+          &quot;description&quot;: &quot;加元 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Currency ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;NZ dollar&quot;,
+          &quot;slug&quot;: &quot;nz-dollar&quot;,
+          &quot;symbol&quot;: &quot;FX:NZDUSD&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX%3ANZDUSD&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Norwegian krone&quot;,
+          &quot;slug&quot;: &quot;norwegian-krone&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDNOK&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDNOK&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Swedish krona&quot;,
+          &quot;slug&quot;: &quot;swedish-krona&quot;,
+          &quot;symbol&quot;: &quot;AMEX:SZK&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ASZK&quot;,
+          &quot;description&quot;: &quot;瑞典克朗 ETF 代理。&quot;,
+          &quot;tags&quot;: [
+            &quot;Currency ETF proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Singapore dollar&quot;,
+          &quot;slug&quot;: &quot;singapore-dollar&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDSGD&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDSGD&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Chinese renminbi&quot;,
+          &quot;slug&quot;: &quot;chinese-renminbi&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDCNH&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDCNH&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Korean won&quot;,
+          &quot;slug&quot;: &quot;korean-won&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDKRW&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDKRW&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Taiwanese dollar&quot;,
+          &quot;slug&quot;: &quot;taiwanese-dollar&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDTWD&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDTWD&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Indian rupee&quot;,
+          &quot;slug&quot;: &quot;indian-rupee&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDINR&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDINR&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Indonesian rupiah&quot;,
+          &quot;slug&quot;: &quot;indonesian-rupiah&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDIDR&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDIDR&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Mexican peso&quot;,
+          &quot;slug&quot;: &quot;mexican-peso&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDMXN&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDMXN&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Brazilian real&quot;,
+          &quot;slug&quot;: &quot;brazilian-real&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDBRL&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDBRL&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;South African rand&quot;,
+          &quot;slug&quot;: &quot;south-african-rand&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDZAR&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDZAR&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Turkish lira&quot;,
+          &quot;slug&quot;: &quot;turkish-lira&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDTRY&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDTRY&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;Argentine peso&quot;,
+          &quot;slug&quot;: &quot;argentine-peso&quot;,
+          &quot;symbol&quot;: &quot;FX_IDC:USDARS&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=FX_IDC%3AUSDARS&quot;,
+          &quot;description&quot;: &quot;原生外汇报价。&quot;,
+          &quot;tags&quot;: [
+            &quot;Native FX / Dollar&quot;
+          ]
+        }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;Sectors&quot;,
+      &quot;slug&quot;: &quot;sectors&quot;,
+      &quot;description&quot;: &quot;全球行业主题 ETF 代理。&quot;,
+      &quot;assets&quot;: [
+        {
+          &quot;name&quot;: &quot;ACWI Energy&quot;,
+          &quot;slug&quot;: &quot;acwi-energy&quot;,
+          &quot;symbol&quot;: &quot;AMEX:IXC&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AIXC&quot;,
+          &quot;description&quot;: &quot;全球能源行业 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Materials&quot;,
+          &quot;slug&quot;: &quot;acwi-materials&quot;,
+          &quot;symbol&quot;: &quot;AMEX:MXI&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AMXI&quot;,
+          &quot;description&quot;: &quot;全球材料行业 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Industrials&quot;,
+          &quot;slug&quot;: &quot;acwi-industrials&quot;,
+          &quot;symbol&quot;: &quot;AMEX:EXI&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AEXI&quot;,
+          &quot;description&quot;: &quot;全球工业行业 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Utilities&quot;,
+          &quot;slug&quot;: &quot;acwi-utilities&quot;,
+          &quot;symbol&quot;: &quot;AMEX:JXI&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AJXI&quot;,
+          &quot;description&quot;: &quot;全球公用事业 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI BioTechnology&quot;,
+          &quot;slug&quot;: &quot;acwi-biotechnology&quot;,
+          &quot;symbol&quot;: &quot;NASDAQ:IBB&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=NASDAQ%3AIBB&quot;,
+          &quot;description&quot;: &quot;生物科技 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Banks&quot;,
+          &quot;slug&quot;: &quot;acwi-banks&quot;,
+          &quot;symbol&quot;: &quot;AMEX:KBE&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AKBE&quot;,
+          &quot;description&quot;: &quot;银行业 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Healthcare&quot;,
+          &quot;slug&quot;: &quot;acwi-healthcare&quot;,
+          &quot;symbol&quot;: &quot;AMEX:IXJ&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AIXJ&quot;,
+          &quot;description&quot;: &quot;全球医疗保健 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Consumer Staples&quot;,
+          &quot;slug&quot;: &quot;acwi-consumer-staples&quot;,
+          &quot;symbol&quot;: &quot;AMEX:KXI&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AKXI&quot;,
+          &quot;description&quot;: &quot;必需消费 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Telecoms&quot;,
+          &quot;slug&quot;: &quot;acwi-telecoms&quot;,
+          &quot;symbol&quot;: &quot;AMEX:IXP&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AIXP&quot;,
+          &quot;description&quot;: &quot;全球电信 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Info Tech&quot;,
+          &quot;slug&quot;: &quot;acwi-info-tech&quot;,
+          &quot;symbol&quot;: &quot;AMEX:IXN&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AIXN&quot;,
+          &quot;description&quot;: &quot;全球信息技术 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Financials&quot;,
+          &quot;slug&quot;: &quot;acwi-financials&quot;,
+          &quot;symbol&quot;: &quot;AMEX:IXG&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3AIXG&quot;,
+          &quot;description&quot;: &quot;全球金融 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Real Estate&quot;,
+          &quot;slug&quot;: &quot;acwi-real-estate&quot;,
+          &quot;symbol&quot;: &quot;AMEX:RWO&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ARWO&quot;,
+          &quot;description&quot;: &quot;全球房地产 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        },
+        {
+          &quot;name&quot;: &quot;ACWI Cons. Discretionary&quot;,
+          &quot;slug&quot;: &quot;acwi-cons-discretionary&quot;,
+          &quot;symbol&quot;: &quot;AMEX:RXI&quot;,
+          &quot;sourceType&quot;: &quot;tradingview&quot;,
+          &quot;externalUrl&quot;: &quot;https://www.tradingview.com/chart/?symbol=AMEX%3ARXI&quot;,
+          &quot;description&quot;: &quot;可选消费 ETF。&quot;,
+          &quot;tags&quot;: [
+            &quot;ETF / Equity proxy&quot;
+          ]
+        }
+      ]
+    }
+  ]
+}</pre>
+        </section>
+      </main>
+    
+</body>
+</html>
