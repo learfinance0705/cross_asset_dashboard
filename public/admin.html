@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cross Asset Admin</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #0b1020; color: #eef2ff; }
+    main { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    h1 { margin-top: 0; }
+    .row { display: grid; gap: 12px; }
+    input, textarea, button { width: 100%; box-sizing: border-box; border-radius: 10px; border: 1px solid #31406f; background: #131c35; color: #eef2ff; padding: 10px 12px; }
+    textarea { min-height: 65vh; font-family: ui-monospace, monospace; }
+    button { cursor: pointer; width: auto; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .note { color: #99a7cf; font-size: 14px; }
+    .ok { color: #7dd3a7; }
+    .err { color: #ff9d8c; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Cross Asset Admin</h1>
+    <p class="note">用 `ADMIN_TOKEN` 保存。当前骨架先用 JSON 直接管理内容，后面可再换成数据库或 CMS。</p>
+    <div class="row">
+      <input id="token" type="password" placeholder="ADMIN_TOKEN" />
+      <textarea id="editor" spellcheck="false"></textarea>
+      <div class="actions">
+        <button id="reload">重新加载</button>
+        <button id="save">保存</button>
+        <span id="status" class="note"></span>
+      </div>
+    </div>
+  </main>
+  <script>
+    const editor = document.getElementById('editor');
+    const statusEl = document.getElementById('status');
+    async function load() {
+      statusEl.className = 'note';
+      statusEl.textContent = '加载中...';
+      const res = await fetch('/api/site');
+      const json = await res.json();
+      editor.value = JSON.stringify(json, null, 2);
+      statusEl.textContent = '已加载';
+      statusEl.className = 'note ok';
+    }
+    async function save() {
+      statusEl.className = 'note';
+      statusEl.textContent = '保存中...';
+      try {
+        const parsed = JSON.parse(editor.value);
+        const res = await fetch('/api/site', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Admin-Token': document.getElementById('token').value
+          },
+          body: JSON.stringify(parsed)
+        });
+        if (!res.ok) throw new Error(await res.text());
+        statusEl.textContent = '保存成功';
+        statusEl.className = 'note ok';
+      } catch (err) {
+        statusEl.textContent = '保存失败: ' + err.message;
+        statusEl.className = 'note err';
+      }
+    }
+    document.getElementById('reload').addEventListener('click', load);
+    document.getElementById('save').addEventListener('click', save);
+    load();
+  </script>
+</body>
+</html>
